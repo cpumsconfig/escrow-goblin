@@ -16,4 +16,10 @@ for (const field of ['mint', 'create_signature']) {
   }
 }
 
-await writeFile(join(outputDir, 'LAUNCH.json'), launchBytes);
+const outputPath = join(outputDir, 'LAUNCH.json');
+await writeFile(outputPath, launchBytes);
+const outputBytes = await readFile(outputPath);
+if (!outputBytes.equals(launchBytes)) {
+  throw new Error(`Copied LAUNCH.json to ${outputDir}, but the output bytes do not match the launch bytes`);
+}
+console.error(`copied LAUNCH.json to ${outputDir}`);
